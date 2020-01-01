@@ -27,6 +27,7 @@ typedef struct {
 
 //player struct - x,y is position
 typedef struct {
+    char xyMark;
     int posx;
     int posy;
 } Player;
@@ -55,7 +56,7 @@ int doStep(char move, Map **map, Game *game, Player *player);
 int main()
 {
 
-    int option=1;
+    int option = 1;
 
     while(option != MENUOPTION) {
         option = menu();
@@ -63,15 +64,6 @@ int main()
         switch(option){
             case 1:
                 startGame();
-                break;
-            case 2:
-                printf("2");
-                break;
-            case 3:
-                printf("3");
-                break;
-            case 4:
-                printf("4");
                 break;
             case MENUOPTION:
                 break;
@@ -104,8 +96,6 @@ int menu (){
 }
 
 
-//========================================================
-
 void startGame(){
     char move;
     char str[50] = "mapy/";
@@ -131,7 +121,7 @@ void startGame(){
 
         player->posx=game->startx;
         player->posy=game->starty;
-
+        player->xyMark = '.';
         setVisible('f', map, game, NULL);
         system("cls");
         while( map[player->posy][player->posx].mark!='@' && move != '0'){
@@ -177,6 +167,10 @@ void startGame(){
 
     system("PAUSE");
 }
+
+
+//========================================================
+
 
 //TOOLS
 
@@ -322,7 +316,6 @@ void setVisible (char opt, Map **map, Game *game, Player *player){
     }
 }
 
-
 int doStep(char move, Map **map, Game *game, Player *player){
 
     switch(move){
@@ -332,8 +325,9 @@ int doStep(char move, Map **map, Game *game, Player *player){
             return 3;
         if(map[player->posy][player->posx-1].mark == 'X')
             return 5;
-        map[player->posy][player->posx].mark = '.';
+        map[player->posy][player->posx].mark = player->xyMark;
         player->posx--;
+        player->xyMark = map[player->posy][player->posx].mark;
         if(map[player->posy][player->posx].visited == 0){
             map[player->posy][player->posx].visited = 1;
             setVisible('a', map, game, player);
@@ -345,8 +339,9 @@ int doStep(char move, Map **map, Game *game, Player *player){
             return 1;
         if(map[player -> posy - 1][player -> posx].mark == 'X')
             return 5;
-        map[player -> posy][player -> posx].mark = '.';
+        map[player -> posy][player -> posx].mark = player->xyMark;
         player -> posy--;
+        player->xyMark = map[player->posy][player->posx].mark;
         if(map[player -> posy][player -> posx].visited == 0){
             map[player -> posy][player -> posx].visited = 1;
             setVisible('w', map, game, player);
@@ -358,8 +353,9 @@ int doStep(char move, Map **map, Game *game, Player *player){
             return 4;
         if(map[player->posy][player->posx+1].mark == 'X')
             return 5;
-        map[player->posy][player->posx].mark = '.';
+        map[player->posy][player->posx].mark = player->xyMark;
         player->posx++;
+        player->xyMark = map[player->posy][player->posx].mark;
         if(map[player->posy][player->posx].visited ==0){
             map[player->posy][player->posx].visited = 1;
             setVisible('d', map, game, player);
@@ -371,8 +367,10 @@ int doStep(char move, Map **map, Game *game, Player *player){
             return 2;
         if(map[player->posy+1][player->posx].mark == 'X')
             return 5;
-        map[player->posy][player->posx].mark = '.';
+        map[player->posy][player->posx].mark = player->xyMark;
+        player->xyMark = map[player->posy][player->posx].mark;
         player->posy++;
+        player->xyMark = map[player->posy][player->posx].mark;
         if(map[player->posy][player->posx].visited == 0){
             map[player->posy][player->posx].visited = 1;
             setVisible('s', map, game, player);
