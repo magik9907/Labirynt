@@ -1,6 +1,0 @@
-# depslib dependency file v1.0
-1577479671 source:c:\users\lukas.000\desktop\labirynt -projekt pp\labirynt\main.c
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-
